@@ -1,57 +1,18 @@
 ## Algone
-Algone目标是建立一个高tps且支持智能合约和AI算法的区块链公链，为区块链应用的落地提供有力支撑。
 
-## Main Features
-支持复杂算法。Algone将复杂计算放到链下进行，再将结果存储到链上，解决了以太坊区块受gas总量控制无法做复杂计算问题。
+Algone is a two-layer blockchain. By stripping time-consuming computation into a uppper layer, Algone can run smart contracts in a asynchronized way so that to support complex algorithm based applications.
 
-支持在线AI。通过多智能合约协作，在线AI能按需实时计算并把结果上链。
 
-提供图灵完备虚拟机，支持智能合约。大量的以太坊应用可以快速迁移。
-
-支持复杂业务应用上链。通过双层链和L1上的bot服务，各行业现有业务逻辑或应用可以方便改造上链。
-
-支持高并发交易。L1层DAG支持物联网级高并发，L2采用dpos算法可以快速出块。
-
-## 架构设计
-采用双层链结构。
-
-L1层只存储交易数据，没有智能合约，支持较高的TPS，提升终端用户体验
-
-L2层实现智能合约，可通过扩展计算节点，在后台实现商业应用要求的复杂计算
-
-L1层和L2层区块链可解耦，将来L2层可以适配新的更高效的L1层区块链
+## Architecture
+There are two blockchains in Algone architecture. Layer 1 is a DAG, fast speeding common transactions; Layer 2 is a weakened blockchain simply running smart contracts.
 
 ![Algone Arch](AlgoneArch.png)
 
-## 体系角色设计
-算法提供者： 提供算法，并部署到L2链上。
+## Consensus
+Layer 1 achieves consensus by the witness mechanism invented by ByteBall. Layer 2 runs smart contracts in virtual machines, record the computation results in Layer 2 transactions and after verified by peer computation nodes, the transactions blended into a Layer 2 block by DPOS agent. Algone imports a transporter node into Byteball to negotiate between Layer 1 and Layer 2. 
 
-应用合同提供者： 提供特定流程的智能合约模版，包括全图灵智能合约和DAG简单智能合约。
+## Application
+In Artval project, which is a protocol for decentralized pricing of artworks, people vote for the price of a piece of artwork. Algone work out the final consensus price in background without consuming other transaction time.
 
-应用服务提供者： 开发bot，综合利用L1简单合约和L2的智能合约以及算法A，处理业务逻辑或提供特定服务。
-
-普通用户： 使用轻钱包，提供数据，或通过DAG智能合约参与活动或购买服务，比如参与定价，购买商品等。
-
-L1见证人： 见证人参与建立主链，可以由普通用户定期选举更新。
-
-L2生产者： dpos的生产者负责出块，同时管理和使用自己的计算资源。
-每个计算任务所有生产者都投入资源计算并互相校验，第一个算出者获得计算奖励，剩余生产者获得较低计算费用补偿。
-计算资源不充足的生产者会被踢出。
-
-在线AI服务者： 提供在线AI服务，通过智能合约实现付费调用。
-
-## 应用示例
-定价服务提供商根据已有的算法和AI服务，开发bot服务。
-
-当需要给一件商品定价时，生成L2合同，并加商品到bot服务中。
-
-普通用户参加定价活动。
-
-该商品定价时间结束，bot发起L2智能合约请求。
-
-按照智能合约规定，L2的所有生产者将调用指定算法计算得到大众定价，相互校验通过后写回到L2合约里。
-
-bot查询L2合约计算结果，对每个用户的定价活动按L1合约规定给予反馈。
-
-普通用户可以通过钱包查询对应L2链上相应智能合约的计算结果。
+Details for the project: https://artval.io
 
